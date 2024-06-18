@@ -31,10 +31,6 @@ FetchContent_MakeAvailable(GKlib)
 
 set(CMAKE_C_STANDARD 99)
 
-add_compile_definitions(
-"REALTYPEWIDTH=$<IF:$<BOOL:${REALTYPEWIDTH}>,${REALTYPEWIDTH},32>"
-"IDXTYPEWIDTH=$<IF:$<BOOL:${IDXTYPEWIDTH}>,${IDXTYPEWIDTH},32>"
-)
 
 include(conf/gkbuild.cmake)
 
@@ -42,6 +38,12 @@ install(FILES include/metis.h TYPE INCLUDE)
 
 # Build libmetis.
 add_library(metis)
+
+target_compile_definitions(metis PUBLIC
+"REALTYPEWIDTH=$<IF:$<BOOL:${REALTYPEWIDTH}>,${REALTYPEWIDTH},32>"
+"IDXTYPEWIDTH=$<IF:$<BOOL:${IDXTYPEWIDTH}>,${IDXTYPEWIDTH},32>"
+)
+
 target_include_directories(metis PUBLIC
 $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 $<INSTALL_INTERFACE:include>
